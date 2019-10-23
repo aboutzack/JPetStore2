@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.csu.jpetstore.persistence.OrderMapper">
+
+  <cache />
+
+  <select id="getOrder" resultType="order" parameterType="int">
+    select
+      billaddr1 as billaddress1,
+      billaddr2 as billaddress2,
+      billcity,
+      billcountry,
+      billstate,
+      billtofirstname,
+      billtolastname,
+      billzip,
+      shipaddr1 as shipaddress1,
+      shipaddr2 as shipaddress2,
+      shipcity,
+      shipcountry,
+      shipstate,
+      shiptofirstname,
+      shiptolastname,
+      shipzip,
+      cardtype,
+      courier,
+      creditcard,
+      exprdate as expirydate,
+      locale,
+      orderdate,
+      orders.orderid,
+      totalprice,
+      userid as username,
+      status
+    from orders, orderstatus
+    where orders.orderid = #{value}
+      and orders.orderid = orderstatus.orderid
+  </select>
+
+  <select id="getOrdersByUsername" parameterType="string" resultType="order">
+    select
+      billaddr1 as billaddress1,
+      billaddr2 as billaddress2,
+      billcity,
+      billcountry,
+      billstate,
+      billtofirstname,
+      billtolastname,
+      billzip,
+      shipaddr1 as shipaddress1,
+      shipaddr2 as shipaddress2,
+      shipcity,
+      shipcountry,
+      shipstate,
+      shiptofirstname,
+      shiptolastname,
+      shipzip,
+      cardtype,
+      courier,
+      creditcard,
+      exprdate as expirydate,
+      locale,
+      orderdate,
+      orders.orderid,
+      totalprice,
+      userid as username,
+      status
+    from orders, orderstatus
+    where orders.userid = #{value}
+      and orders.orderid = orderstatus.orderid
+    order by orderdate
+  </select>
+
+  <insert id="insertOrder" parameterType="order">
+    insert into orders (orderid, userid, orderdate, shipaddr1, shipaddr2, shipcity, shipstate,
+      shipzip, shipcountry, billaddr1, billaddr2, billcity, billstate, billzip, billcountry,
+      courier, totalprice, billtofirstname, billtolastname, shiptofirstname, shiptolastname,
+      creditcard, exprdate, cardtype, locale)
+    values(#{orderid}, #{username}, #{orderdate}, #{shipaddress1}, #{shipaddress2,jdbcType=VARCHAR}, #{shipcity},
+      #{shipstate}, #{shipzip}, #{shipcountry}, #{billaddress1}, #{billaddress2,jdbcType=VARCHAR}, #{billcity},
+      #{billstate}, #{billzip}, #{billcountry}, #{courier}, #{totalprice}, #{billtofirstname}, #{billtolastname},
+      #{shiptofirstname}, #{shiptolastname}, #{creditcard}, #{expirydate}, #{cardtype}, #{locale})
+  </insert>
+
+  <insert id="insertOrderStatus" parameterType="order">
+    insert into orderstatus (orderid, linenum, TIMESTAMP, status)
+    values (#{orderid,jdbcType=NUMERIC}, #{orderid,jdbcType=NUMERIC}, #{orderdate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+  </insert>
+
+</mapper>

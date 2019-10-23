@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<!-- changes from the defaults -->
+		<setting name="lazyLoadingEnabled" value="false" />
+	</settings>
+	<typeAliases>
+		<typeAlias alias="account" type="org.csu.jpetstore.domain.Account" />
+		<typeAlias alias="category" type="org.csu.jpetstore.domain.Category" />
+		<typeAlias alias="item" type="org.csu.jpetstore.domain.Item" />
+		<typeAlias alias="lineItem" type="org.csu.jpetstore.domain.LineItem" />
+		<typeAlias alias="order" type="org.csu.jpetstore.domain.Order" />
+		<typeAlias alias="product" type="org.csu.jpetstore.domain.Product" />
+		<typeAlias alias="sequence" type="org.csu.jpetstore.domain.Sequence" />
+	</typeAliases>
+
+</configuration>
