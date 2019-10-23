@@ -7,32 +7,33 @@
     <div class="item-table">
       <el-row type="flex" justify="center">
         <el-col :span="24">
-          <div class="grid-content bg-purple-dark">{{ description }}</div>
+          <div v-html="product.description" class="grid-content bg-purple-dark"></div>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
         <el-col :span="24">
-          <div class="grid-content bg-purple-dark"><b>{{ itemId }}</b></div>
+          <div class="grid-content bg-purple-dark"><b>{{ item.itemId }}</b></div>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
         <el-col :span="24">
-          <div class="grid-content bg-purple-dark"><b>{{ allAttribute }}</b></div>
+          <div class="grid-content bg-purple-dark"><b>{{item.attribute1}} {{item.attribute2}}
+            {{item.attribute3}} {{item.attribute4}} {{item.attribute5}} {{product.name}}</b></div>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
         <el-col :span="24">
-          <div class="grid-content bg-purple-dark">{{ name }}</div>
+          <div class="grid-content bg-purple-dark">{{ item.name }}</div>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
         <el-col :span="24">
-          <div class="grid-content bg-purple-dark">{{ quantity }} in stock</div>
+          <div class="grid-content bg-purple-dark">{{ item.quantity }} in stock</div>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
         <el-col :span="24">
-          <div class="grid-content bg-purple-dark">{{listPrice }}</div>
+          <div class="grid-content bg-purple-dark">${{ item.listPrice }}</div>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
@@ -57,22 +58,32 @@ export default {
   },
   data() {
     return {
-      itemId: 'EST-26',
-      description: `Great companion for up to 75 years`,
-      attribute1: 'Adult',
-      attribute2: 'Male',
-      attribute3: '',
-      attribute4: '',
-      attribute5: '',
-      name: 'Chihuahua',
-      quantity: '10000',
-      listPrice: '$125.50',
+      item: {},
+      product:{}
     }
   },
-  computed: {
-    allAttribute: function () {
-      return (this.attribute1 + ' ' + this.attribute2 + ' ' + this.attribute3 + ' ' + this.attribute4 + ' ' + this.attribute5+
-      ' '+this.name)
+    methods: {
+    getData() {
+      this.axios.get('api/v1/item', {
+          params: {
+            id: this.$route.query.id
+          }
+        })
+        .then(res => {
+          this.item = res.data.data.item
+          this.product = res.data.data.product
+        })
+        .catch(err => {
+          window.console.error(err);
+        })
+    }
+  },
+  created() {
+    this.getData();
+  },
+  watch: {
+    '$route'() {
+      this.getData();
     }
   }
 }
@@ -96,5 +107,9 @@ export default {
 
 .el-col div {
   color: #606266
+}
+
+.image-text{
+  text-align: center;
 }
 </style>
