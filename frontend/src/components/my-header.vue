@@ -71,8 +71,8 @@
                 </el-popover>
               </div>
               <div v-else>
-                <router-link to="/signup">注册</router-link> | 
-                <router-link to="/signin">登入</router-link>
+                <router-link :to="'/signup?redirect='+getFullUrl()">注册</router-link> | 
+                <router-link :to="'signin?redirect='+getFullUrl()">登入</router-link>
               </div>
             </div>
           </div>
@@ -82,8 +82,13 @@
 </template>
 
 <script>
+import {getRelativePathAndParams} from '../utils/utils.js'
 export default {
-
+  methods: {
+    getFullUrl(){
+      return getRelativePathAndParams()
+    }
+  },  
 }
 </script>
 

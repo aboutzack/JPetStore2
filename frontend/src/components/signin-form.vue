@@ -60,19 +60,17 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // alert("登录成功") 
-          this.axios.post('/api/v1/user/login', {
-            username: this.id,
-            password: this.pass
-          }).then(res=>{
-            if(res.data.status){
-              window.console('登录成功')
-            }else{
-              window.console.log('账号密码错误')
-            }
-          }).catch(
-            window.console.log('网络失败')
-          )
+          this.axios.post('session',{
+              username: this.ruleForm.id,
+              password: this.ruleForm.pass
+          })
+          .then(res => {
+            this.$cookies.set("tokne", res.data.data.token, 60*60*24*7)
+            this.$router.push(this.$route.query.redirect)
+          })
+          .catch$(err => {
+            window.console.error(err)
+          })
         }
       });
     },
