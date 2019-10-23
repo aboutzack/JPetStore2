@@ -10,6 +10,7 @@ import './plugins/element-variables.scss'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueAxios, axios)
+axios.defaults.baseURL='api/v1/'
 
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
