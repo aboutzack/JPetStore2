@@ -13,7 +13,7 @@ Vue.use(ElementUI)
 Vue.use(VueAxios, axios)
 Vue.use(VueCookies)
 
-axios.defaults.baseURL='api/v1/'
+axios.defaults.baseURL='/api/v1/'
 
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {

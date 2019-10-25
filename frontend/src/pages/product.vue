@@ -69,6 +69,17 @@ export default {
         .catch(err => {
           window.console.error(err);
         })
+    },
+    handleEdit(index){
+      // window.console.log(this.itemList[index].itemId)
+      this.axios.post('user/cart',{itemId: this.itemList[index].itemId})
+      .then(res => {
+        window.console.log(res)
+        this.$cookies.set("token", res.data.data.token, 60*60*24*7)
+      })
+      .catch(err => {
+        window.console.error(err); 
+      })
     }
   },
   created() {

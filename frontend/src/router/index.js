@@ -58,6 +58,24 @@ export default new Router({
                 title: 'JPetStore - Item',
             },
             component: () => import('../pages/item.vue')
+        },
+        {
+            path: '/cart',
+            name: '购物车',
+            hidden: true,
+            meta: {
+                title: 'JPetStore - Cart',
+            },
+            component: () => import('../pages/cart.vue')
+        },
+        {
+            path: '/product/searches',
+            name: '搜索',
+            hidden: true,
+            meta: {
+                title: 'JPetStore - Search',
+            },
+            component: () => import('../pages/search.vue')
         }
     ]
 })

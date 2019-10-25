@@ -5,9 +5,10 @@
   v-model="state"
   :fetch-suggestions="querySearchAsync"
   placeholder="搜索任何宠物"
-  @select="handleSelect"
+  value-key="name"
+  @keyup.enter.native="search"
 ></el-autocomplete></el-col>
-    <el-col :span="1"><el-button type="primary">搜索</el-button></el-col>
+    <el-col :span="1"><el-button type="primary" @click="search">搜索</el-button></el-col>
   </el-row>
 </div>
 
@@ -17,39 +18,43 @@
   export default {
     data() {
       return {
-        restaurants: [],
-        state: '',
-        timeout:  null
+        state: null,
+        timeout:  null,
+        productList: [],
+        queryString: ''
       };
     },
     methods: {
-      loadAll() {
-        return [
-          { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
-        ];
+      getData(){
+        this.axios.get('product/searches')
+        .then(res => {
+          this.productList = res.data.data
+        })
+        .catch(err => {
+          window.console.error(err)
+        })
       },
       querySearchAsync(queryString, cb) {
-        var restaurants = this.restaurants;
-        var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
-
+        this.queryString = queryString;
+        var productList = this.productList;
+        var results = queryString ? productList.filter(this.createStateFilter(queryString)) : productList;
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
           cb(results);
-        }, 3000 * Math.random());
+        }, 500 * Math.random());
       },
       createStateFilter(queryString) {
         return (state) => {
-          return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+          return (state.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
         };
       },
-      handleSelect(item) {
-        // console.log(item);
-        alert(item);
+      search(){
+        this.$router.push('/product/searches?keyword='+this.state)
       }
     },
-    mounted() {
-      this.restaurants = this.loadAll();
-    }
+    created(){
+       this.getData();
+    },
   };
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="form-container">
+    <div v-if="!isIdAndPassValid" class="form-container">
       <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="账号" prop="id">
           <el-input type="text" v-model="ruleForm.id" autocomplete="off"></el-input>
@@ -12,6 +12,54 @@
           <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">注册</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <div v-if="isIdAndPassValid" class="form-container">
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="First name" prop="id">
+          <el-input type="text" v-model="ruleForm.id" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Last name" prop="pass">
+          <el-input type="text" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        </el-form-item>
+         <el-form-item label="Email" prop="checkPass">
+          <el-input type="text" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Phone" prop="id">
+          <el-input type="text" v-model="ruleForm.id" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Address1" prop="pass">
+          <el-input type="text" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        </el-form-item>
+         <el-form-item label="Address2" prop="checkPass">
+          <el-input type="text" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="City" prop="id">
+          <el-input type="text" v-model="ruleForm.id" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="State" prop="pass">
+          <el-input type="text" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        </el-form-item>
+         <el-form-item label="Zip" prop="checkPass">
+          <el-input type="text" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+         </el-form-item>
+        <el-form-item label="Country" prop="checkPass">
+          <el-input type="text" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Language Preference" prop="pass">
+          <el-input type="text" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        </el-form-item>
+         <el-form-item label="Favourite Category" prop="checkPass">
+          <el-input type="text" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Enable MyList" prop="pass">
+          <el-input type="text" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        </el-form-item>
+         <el-form-item label="Enable MyBanner" prop="checkPass">
+          <el-input type="text" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
           <el-button type="primary" @click="submitForm('ruleForm')">注册</el-button>
         </el-form-item>
       </el-form>
@@ -66,15 +114,16 @@
           ],
           checkPass: [
             { validator: validatePass2, trigger: 'blur' }
-          ]
-        }
+          ],
+        },
+        isIdAndPassValid: false 
       };
     },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            // todo
+            this.isIdAndPassValid = true
           }
         });
       },

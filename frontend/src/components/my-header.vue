@@ -40,29 +40,18 @@
           <div class="navbar navbar-right">
             <div class="navbar-link userinfo">
               <div v-if="signed">
-                <div class="fubao">
-                  <el-button type="primary" icon="el-icon-edit" size="small" round
-                    @click="$router.push('/creator/new/article')">写文章</el-button>
-                </div>
-                <div class="message">
-                  <el-popover placement="bottom" trigger="click">
-                    <div class="messagelist" v-loading="loadingMessage">
-                      <img src="" style="width:130px;" alt v-if="loadingMessage" />
-                    </div>
-                    <i slot="reference" class="el-icon-bell" style="font-size:1rem;"></i>
-                  </el-popover>
+                <div  class="message">
+                    <i slot="reference" class="el-icon-shopping-cart-2" style="font-size:1rem;"
+                    @click="$router.push('cart')"></i>
                 </div>
                 <el-popover placement="bottom" width="150" trigger="click" style="padding:0!important">
                   <div class="userinfo-popout">
-                    <div class="username">张同学</div>
+                    <div class="username">zack</div>
                     <div class="funclist">
-                      <div class="funcitem" @click="$router.push('/people/123456789012345678901234')">
+                      <div class="funcitem" @click="$router.push('detailinfo')">
                         <i class="el-icon-user-solid"></i> 我的主页
                       </div>
-                      <div class="funcitem" @click="$router.push('/setting')">
-                        <i class="el-icon-s-tools"></i> 设置
-                      </div>
-                      <div class="funcitem">
+                      <div class="funcitem" @click="signout()">
                         <i class="el-icon-moon-night"></i> 登出
                       </div>
                     </div>
@@ -84,9 +73,26 @@
 <script>
 import {getRelativePathAndParams} from '../utils/utils.js'
 export default {
+  data(){
+    return {
+      headerFixable: false,
+      token: "",
+      signed: true,
+      showuserinfo: false,
+      loadingMessage: true,
+      userinfo: {
+        avatar: "",
+        name: "",
+        id: ""
+    }
+  }
+},
   methods: {
     getFullUrl(){
       return getRelativePathAndParams()
+    },
+    signout(){
+      this.$cookies.remove('token')
     }
   },  
 }
@@ -262,6 +268,7 @@ header {
             max-width: 100%;
             border-radius: 0.3rem;
             background: #2c3e50;
+            cursor:pointer;
             &:hover {
               border-bottom: none;
             }
@@ -272,6 +279,7 @@ header {
             margin-bottom: -10px;
             line-height: 2.2rem;
             text-align: center;
+            cursor: pointer;
             .messagelist {
             }
           }
@@ -317,6 +325,7 @@ header {
       padding: 0.5rem 0.5rem;
       transition: all 0.2s all;
       text-decoration: none;
+      cursor:pointer;
       &:hover {
         background-color: #b4b0c921;
         transition: all 0.2s ease-out;

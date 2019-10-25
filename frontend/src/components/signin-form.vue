@@ -65,7 +65,7 @@ export default {
               password: this.ruleForm.pass
           })
           .then(res => {
-            this.$cookies.set("tokne", res.data.data.token, 60*60*24*7)
+            this.$cookies.set("token", res.data.data.token, 60*60*24*7)
             this.$router.push(this.$route.query.redirect)
           })
           .catch$(err => {
