@@ -16,6 +16,9 @@
 		<typeAlias alias="order" type="org.csu.jpetstore.domain.Order" />
 		<typeAlias alias="product" type="org.csu.jpetstore.domain.Product" />
 		<typeAlias alias="sequence" type="org.csu.jpetstore.domain.Sequence" />
+		<typeAlias alias="cart" type="org.csu.jpetstore.domain.Cart"/>
+		<typeAlias alias="cartItem" type="org.csu.jpetstore.domain.CartItem"/>
+		<typeAlias alias="myCart" type="org.csu.jpetstore.domain.MyCart"/>
 	</typeAliases>
 
 </configuration>

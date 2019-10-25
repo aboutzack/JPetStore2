@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.csu.jpetstore.persistence.CartMapper">
+
+    <insert id="insertOrUpdateCart">
+        insert into cart
+            (username, itemid, quantity, totalprice)
+        values(#{username}, #{itemid}, #{quantity}, #{totalprice})
+            on duplicate key
+            update quantity=#{quantity}, totalprice=#{totalprice}
+    </insert>
+
+    <select id="getCartByUsername" parameterType="string" resultType="myCart">
+        select 
+            c.itemid,
+            c.quantity,
+            c.totalprice,
+            listprice,
+            unitcost,
+            supplier as supplierid,
+            i.productid as "product.productid",
+            name as "product.name",
+            descn as "product.description",
+            category as "product.categoryid",
+            status,
+            attr1 as attribute1,
+            attr2 as attribute2,
+            attr3 as attribute3,
+            attr4 as attribute4,
+            attr5 as attribute5
+        from cart c, item i, inventory v, product p
+        where p.productid = i.productid
+            and i.itemid = v.itemid
+            and i.itemid = c.itemid
+            and c.username = #{username}
+    </select>
+
+    <delete id="deleteByUsernameAndItemId" parameterType="string" >
+        delete
+            from cart where username = #{username} and itemid = #{itemid}
+    </delete>
+
+    <delete id="deleteByUsername" parameterType="string">
+        delete
+            from cart where username = #{username}
+    </delete>
+
+</mapper>

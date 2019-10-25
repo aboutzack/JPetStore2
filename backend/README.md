@@ -113,7 +113,7 @@ PUT /api/v1/user/detailinfo
   
 Key | Type | Mandatory | Default | Description  
 ---- | ---- | --------- | -------- | -----------  
-username | string | Yes | - | 要查询的用户的username
+username | string | Yes | - | 用户标识id
 
 
 **Response Data**    
@@ -201,4 +201,25 @@ Key | Type  | Description
 product | object | item所属product，内容详情见`Product Data`
 time | object | 查询到的item，内容详情见`Item Data`
 
+## 购物车
+### Cart
+```
+GET /api/v1/user/cart 
+```  
+**Request Data**  
+  
+Key | Type | Mandatory | Default | Description  
+---- | ---- | --------- | -------- | -----------  
+ 
+
+**Response Data**   
+  
+Key | Type  | Description  
+---- | ----  | -----------  
+cart | object | 购物车，详情见`Cart Data`
+
+**Cart Data**
+
+Key | Type  | Description  
+---- | ----  | -----------  
 

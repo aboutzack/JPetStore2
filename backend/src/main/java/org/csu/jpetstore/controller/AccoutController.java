@@ -69,33 +69,34 @@ public class AccoutController {
 
     @PutMapping("/user/detailinfo")
     public ReturnEntity updateUserInfo(@RequestBody Account account, @CookieValue("token") String token) {
-        JSONObject data = new JSONObject();
-        if (!jwtService.isJwtValid(token) || jwtService.isJwtFailure(token)) {
-            return ReturnEntity.failedResult("token无效");
-        } else if (jwtService.isJwtExpired(token)) {
-            String newToken = jwtService.generateNewJwtByOld(token);
-            data.put("token", newToken);
-        } else {
-            data.put("token", token);
+        if (account == null) {
+            return ReturnEntity.failedResult("缺少参数account");
         }
-        accountService.updateAccount(account);
-        data.put("account", account);
-        return ReturnEntity.successResult(data);
+        JSONObject data = new JSONObject();
+        //如果token无效返回null，否则返回新的token并直接更新
+        token = jwtService.validateToken(token, data);
+        if(token == null){
+            return ReturnEntity.failedResult("token无效");
+        }else {
+            accountService.updateAccount(account);
+            data.put("account", account);
+            return ReturnEntity.successResult(data);
+        }
     }
 
-    @RequestMapping("/user/detailinfo")
+    @GetMapping("/user/detailinfo")
     public ReturnEntity getUserInfo(@CookieValue("token") String token) {
         JSONObject data = new JSONObject();
         if (!jwtService.isJwtValid(token) || jwtService.isJwtFailure(token)) {
             return ReturnEntity.failedResult("token无效");
         } else if (jwtService.isJwtExpired(token)) {
-            String newToken = jwtService.generateNewJwtByOld(token);
-            data.put("token", newToken);
+            token = jwtService.generateNewJwtByOld(token);
+            data.put("token", token);
         } else {
             data.put("token", token);
         }
-        String userName = JwtUtil.decode(token, JwtUtil.SECRET).get("name").asString();
-        Account account = accountService.getAccount(userName);
+        String username = JwtUtil.decode(token, JwtUtil.SECRET).get("name").asString();
+        Account account = accountService.getAccount(username);
         data.put("account", account);
         return ReturnEntity.successResult(data);
     }

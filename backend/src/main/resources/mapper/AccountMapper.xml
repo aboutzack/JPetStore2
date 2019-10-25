@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.csu.jpetstore.persistence.AccountMapper">
 
@@ -11,17 +11,17 @@
           account.firstname,
           account.lastname,
           account.status,
-          account.addr1 as address1,
-          account.addr2 as address2,
+          account.addr1 as addr1,
+          account.addr2 as addr2,
           account.city,
           account.state,
           account.zip,
           account.country,
           account.phone,
-          profile.langpref as languagepreference,
-          profile.favcategory as favouritecategoryid,
-          profile.mylistopt as listoption,
-          profile.banneropt as banneroption,
+          profile.langpref as languagePreference,
+          profile.favcategory as favouriteCategoryId,
+          profile.mylistopt as listOption,
+          profile.banneropt as bannerOption,
           bannerdata.bannername
     from account, profile, signon, bannerdata
     where account.userid = #{username}
@@ -44,10 +44,10 @@
       account.zip,
       account.country,
       account.phone,
-      profile.langpref as languagepreference,
-      profile.favcategory as favouritecategoryid,
-      profile.mylistopt as listoption,
-      profile.banneropt as banneroption,
+      profile.langpref as languagePreference,
+      profile.favcategory as favouriteCategoryId,
+      profile.mylistopt as listOption,
+      profile.banneropt as bannerOption,
       bannerdata.bannername
     from account, profile, signon, bannerdata
     where account.userid = #{username}
@@ -60,11 +60,11 @@
   <update id="updateAccount" parameterType="account">
     update account set
       email = #{email},
-      firstname = #{firstname},
-      lastname = #{lastname},
+      firstname = #{firstName},
+      lastname = #{lastName},
       status = #{status},
-      addr1 = #{address1},
-      addr2 = #{address2,jdbcType=VARCHAR},
+      addr1 = #{addr1},
+      addr2 = #{addr2,jdbcType=VARCHAR},
       city = #{city},
       state = #{state},
       zip = #{zip},
@@ -74,13 +74,13 @@
   </update>
 
   <insert id="insertAccount" parameterType="account">
-    insert into account
+    INSERT INTO account
       (email, firstname, lastname, status, addr1, addr2, city, state, zip, country, phone, userid)
-    values
-      (#{email}, #{firstname}, #{lastname}, #{status}, #{address1},  #{address2,jdbcType=VARCHAR}, #{city}, #{state}, #{zip}, #{country}, #{phone}, #{username})
+    VALUES
+      (#{email}, #{firstName}, #{lastName}, #{status}, #{addr1},  #{addr2,jdbcType=VARCHAR}, #{city}, #{state}, #{zip}, #{country}, #{phone}, #{username})
   </insert>
 
-  <!--  
+  <!--
   TODO MyBatis 3 does not map booleans to integers
   <update id="updateProfile" parameterType="account">
     UPDATE PROFILE SET
@@ -94,12 +94,12 @@
 
   <update id="updateProfile" parameterType="account">
     update profile set
-      langpref = #{languagepreference},
-      favcategory = #{favouritecategoryid}
+      langpref = #{languagePreference},
+      favcategory = #{favouriteCategoryId}
     where userid = #{username}
   </update>
 
-  <!--  
+  <!--
   TODO MyBatis 3 does not map booleans to integers
   <insert id="insertProfile" parameterType="account">
     INSERT INTO PROFILE (LANGPREF, FAVCATEGORY, MYLISTOPT, BANNEROPT, USERID)
@@ -108,17 +108,17 @@
   -->
 
   <insert id="insertProfile" parameterType="account">
-    insert into profile (langpref, favcategory, userid)
-    values (#{languagepreference}, #{favouritecategoryid}, #{username})
+    insert into profile (LANGPREF, FAVCATEGORY, USERID)
+    values (#{languagePreference}, #{favouriteCategoryId}, #{username})
   </insert>
 
   <update id="updateSignon" parameterType="account">
-    update signon set password = #{password}
+    update signon set PASSWORD = #{password}
     where username = #{username}
   </update>
 
   <insert id="insertSignon" parameterType="account">
-    insert into signon (password,username)
+    insert into signon (PASSWORD,USERNAME)
     values (#{password}, #{username})
   </insert>
 

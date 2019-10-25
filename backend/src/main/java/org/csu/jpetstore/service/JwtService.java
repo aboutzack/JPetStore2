@@ -1,6 +1,7 @@
 package org.csu.jpetstore.service;
 
 
+import com.alibaba.fastjson.JSONObject;
 import org.csu.jpetstore.utils.JwtUtil;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +54,17 @@ public class JwtService {
      */
     public boolean isJwtFailure(String token) {
         return JwtUtil.isJwtFailure(token, secret, failureTime);
+    }
+
+    public String validateToken(String token, JSONObject data) {
+        if (!isJwtValid(token) || isJwtFailure(token)) {
+            return null;
+        } else if (isJwtExpired(token)) {
+            token = generateNewJwtByOld(token);
+            data.put("token", token);
+        } else {
+            data.put("token", token);
+        }
+        return token;
     }
 }

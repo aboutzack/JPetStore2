@@ -5,6 +5,14 @@
 <mapper namespace="org.csu.jpetstore.persistence.ProductMapper">
 
   <cache />
+  <select id="getAllProducts" resultType="product">
+    select
+      productid,
+      name,
+      descn as description,
+      category as categoryid
+    from product
+  </select>
 
   <select id="getProduct" parameterType="string" resultType="product">
     select

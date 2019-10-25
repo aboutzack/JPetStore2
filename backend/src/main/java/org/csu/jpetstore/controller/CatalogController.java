@@ -18,13 +18,13 @@ public class CatalogController {
     private CatalogService catalogService;
 
     @GetMapping("/category")
-    private ReturnEntity getCategory(@RequestParam String id) {
+    public ReturnEntity getCategory(@RequestParam String id) {
         List<Product> productList = catalogService.getProductListByCategory(id);
         return ReturnEntity.successResult(productList);
     }
 
     @GetMapping("/product")
-    private ReturnEntity getProduct(@RequestParam String id) {
+    public ReturnEntity getProduct(@RequestParam String id) {
         JSONObject data = new JSONObject();
         List<Item> itemList = catalogService.getItemListByProduct(id);
         Product product = catalogService.getProduct(id);
@@ -34,7 +34,7 @@ public class CatalogController {
     }
 
     @GetMapping("/item")
-    private ReturnEntity getItem(@RequestParam String id) {
+    public ReturnEntity getItem(@RequestParam String id) {
         JSONObject data = new JSONObject();
         Item item =  catalogService.getItem(id);
         Product product = null;
@@ -48,14 +48,17 @@ public class CatalogController {
         return ReturnEntity.successResult(data);
     }
 
-    private ReturnEntity searchProduct(@RequestParam String keyword) {
+    @GetMapping("/product/searches")
+    public ReturnEntity searchProduct(@RequestParam(required = false) String keyword) {
         JSONObject data = new JSONObject();
+        List<Product> productList;
         if (keyword == null || keyword.length() < 1) {
-            return ReturnEntity.failedResult("关键字为空");
+            //返回全部的product
+            productList = catalogService.getAllProducts();
         }else {
-            List<Product> productList = catalogService.searchProductList(keyword.toLowerCase());
-            data.put("productList", productList);
-            return ReturnEntity.successResult(productList);
+            productList = catalogService.searchProductList(keyword.toLowerCase());
         }
+        data.put("productList", productList);
+        return ReturnEntity.successResult(productList);
     }
 }
