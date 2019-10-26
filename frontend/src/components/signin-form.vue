@@ -68,6 +68,7 @@ export default {
             if(res.data.status){
               let token = res.data.data.token
               this.$cookies.set("token", token, 60*60*24*7)
+              this.$store.commit('updateSigned', true)
               this.$router.push(this.$route.query.redirect)
             }else{
               this.$message.error('用户名或密码错误')

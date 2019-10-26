@@ -76,6 +76,15 @@ export default new Router({
                 title: 'JPetStore - Search',
             },
             component: () => import('../pages/search.vue')
+        },
+        {
+            path: '/neworder',
+            name: '新订单',
+            hidden: true,
+            meta: {
+                title: 'JPetStore - NewOrder',
+            },
+            component: () => import('../pages/new-order.vue')
         }
     ]
 })

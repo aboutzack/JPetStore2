@@ -7,6 +7,7 @@ import ElementUI from 'element-ui'
 import VueCookies from 'vue-cookies'
 // import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element-variables.scss'
+import store from './store'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
@@ -23,5 +24,6 @@ router.beforeEach((to, from, next) => {
 })
 new Vue({
   render: h => h(App),
-  router
+  router,
+  store
 }).$mount('#app')

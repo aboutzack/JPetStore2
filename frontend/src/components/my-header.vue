@@ -39,10 +39,10 @@
           </div>
           <div class="navbar navbar-right">
             <div class="navbar-link userinfo">
-              <div v-if="signed">
+              <div v-if="$store.state.signed">
                 <div  class="message">
                     <i slot="reference" class="el-icon-shopping-cart-2" style="font-size:1rem;"
-                    @click="$router.push('cart')"></i>
+                    @click="$router.push('/cart')"></i>
                 </div>
                 <el-popover placement="bottom" width="150" trigger="click" style="padding:0!important">
                   <div class="userinfo-popout">
@@ -77,7 +77,6 @@ export default {
     return {
       headerFixable: false,
       token: "",
-      signed: true,
       showuserinfo: false,
       loadingMessage: true,
       userinfo: {
@@ -93,7 +92,8 @@ export default {
     },
     signout(){
       this.$cookies.remove('token')
-      this.$message.error('登出成功')
+      this.$message.success('登出成功')
+      this.$store.commit('updateSigned',false)
     }
   },  
 }

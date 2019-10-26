@@ -9,7 +9,7 @@
         <el-table-column align="center" label="Item ID" width="180">
           <template slot-scope="scope">
             <span style="margin-left: 10px">
-              <el-link type="primary" :href="'item?id='+scope.row.itemId">{{ scope.row.itemId }}</el-link>
+              <el-link type="primary" @click="$router.push('item?id='+scope.row.itemId)">{{ scope.row.itemId }}</el-link>
             </span>
           </template>
         </el-table-column>

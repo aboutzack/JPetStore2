@@ -84,10 +84,13 @@ public class CartController {
             Cart cart = cartService.getCartByUsername(username);
             cart.setQuantityByItemId(itemId, quantity);
             if (quantity < 1) {
+                cart.removeItemById(itemId);
                 cartService.deleteByUsernameAndItemId(username, itemId);
+            }else {
+                Item item = catalogService.getItem(itemId);
+                cartService.insertOrUpdateCartItem(username, itemId, quantity, new BigDecimal(quantity).multiply(item.getListPrice()));
             }
-            cartService.insertOrUpdateCartItem(username, itemId, quantity, cart.getSubTotal());
-            data.put("token", token);
+            data.put("cart", cart);
             return ReturnEntity.successResult(data);
         }
     }

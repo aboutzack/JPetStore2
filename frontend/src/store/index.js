@@ -4,16 +4,26 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    state:{
-        
+  state: {
+    cart: null,
+    signed: true,
+    //搜索到的所有product
+    productList: null
+  },
+  getters: {
+      allCartItems: state=>{
+        return state.cart.allCartItems
+      },
+      subTotal: state=>{
+        return state.cart.subTotal
+      }
+  },
+  mutations: {
+    updateCart:(state, cart)=>{
+      state.cart = cart
     },
-    getters:{
-      
-    },
-    mutations:{
-    },
-    actions:{
-
+    updateSigned:(state, status)=>{
+      state.signed = status
     }
-    
+  }
 })
