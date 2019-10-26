@@ -39,7 +39,7 @@
       <el-row type="flex" justify="center">
         <el-col :span="24">
           <div class="grid-content bg-purple-dark">
-            <el-button type="primary">Add to Cart</el-button>
+            <el-button type="primary" @click="addToCart()">Add to Cart</el-button>
           </div>
         </el-col>
       </el-row>
@@ -51,6 +51,7 @@
 <script>
 import defaultLayout from '../layouts/default'
 import inputSearch from '../components/input-search'
+import {getRelativePathAndParams} from '../utils/utils'
 export default {
   components: {
     defaultLayout,
@@ -76,6 +77,24 @@ export default {
         .catch(err => {
           window.console.error(err);
         })
+    },
+    addToCart(){
+      this.axios.post('/user/cart',{itemId: this.item.itemId})
+      .then(res => {
+        if(res.data.status){
+          this.$message.success('成功添加到购物车')
+        }
+        window.console.log(res)
+        this.$cookies.set("token", res.data.data.token, 60*60*24*7)
+      })
+      .catch(err => {
+        if(err.response.status==400){
+          this.$message ('请先登入')
+            //跳转到登录页
+            this.$router.push('/signin?redirect='+getRelativePathAndParams())
+        }
+        window.console.error(err); 
+      })
     }
   },
   created() {
@@ -97,6 +116,11 @@ export default {
   margin-top: 100px;
   margin-bottom: 150px;
 }
+
+.el-table{
+  min-height: 350px;
+}
+
 .el-row {
   width: 800px;
   margin-bottom: 2px;

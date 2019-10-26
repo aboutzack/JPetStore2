@@ -11,6 +11,7 @@ import org.csu.jpetstore.utils.ReturnEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 @RestController
@@ -60,7 +61,8 @@ public class CartController {
                 cart.addItem(item, isInStock);
             }
             int quantity =  cart.getCartItemQuantityByItemId(itemId);
-            cartService.insertOrUpdateCartItem(username, itemId, quantity,cart.getSubTotal());
+            Item item = catalogService.getItem(itemId);
+            cartService.insertOrUpdateCartItem(username, itemId, quantity,new BigDecimal(quantity).multiply(item.getListPrice()));
             data.put("cart", cart);
             return ReturnEntity.successResult(data);
         }

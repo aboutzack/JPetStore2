@@ -34,6 +34,7 @@ public class CartService {
             product.setDescription(myCart.getDescription());
             product.setCategoryId(myCart.getCategoryid());
             item.setStatus(myCart.getItemid());
+            item.setProductId(myCart.getProductid());
             item.setAttribute1(myCart.getAttribute1());
             item.setAttribute2(myCart.getAttribute2());
             item.setAttribute3(myCart.getAttribute3());

@@ -84,5 +84,7 @@ export default {
 .el-table {
   width: 720px;
   margin: 0 auto;
+  min-height: 350px;
+
 }
 </style>

@@ -6,7 +6,7 @@
         <el-input type="text" v-model="ruleForm.id" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
-        <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        <el-input @keyup.enter.native="submitForm('ruleForm')" type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">登入</el-button>
@@ -65,10 +65,15 @@ export default {
               password: this.ruleForm.pass
           })
           .then(res => {
-            this.$cookies.set("token", res.data.data.token, 60*60*24*7)
-            this.$router.push(this.$route.query.redirect)
+            if(res.data.status){
+              let token = res.data.data.token
+              this.$cookies.set("token", token, 60*60*24*7)
+              this.$router.push(this.$route.query.redirect)
+            }else{
+              this.$message.error('用户名或密码错误')
+            }
           })
-          .catch$(err => {
+          .catch(err => {
             window.console.error(err)
           })
         }

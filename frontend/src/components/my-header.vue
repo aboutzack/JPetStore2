@@ -93,6 +93,7 @@ export default {
     },
     signout(){
       this.$cookies.remove('token')
+      this.$message.error('登出成功')
     }
   },  
 }

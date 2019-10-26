@@ -56,6 +56,12 @@ public class JwtService {
         return JwtUtil.isJwtFailure(token, secret, failureTime);
     }
 
+    /**
+     * 如果token无效，返回null，如果token过期，data中放置新的tokne，如果token有效，将token发回
+     * @param token
+     * @param data
+     * @return
+     */
     public String validateToken(String token, JSONObject data) {
         if (!isJwtValid(token) || isJwtFailure(token)) {
             return null;

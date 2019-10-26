@@ -42,6 +42,7 @@
 <script>
 import defaultLayout from '../layouts/default'
 import inputSearch from '../components/input-search'
+import {getRelativePathAndParams} from '../utils/utils'
 export default {
   components: {
     defaultLayout,
@@ -71,13 +72,20 @@ export default {
         })
     },
     handleEdit(index){
-      // window.console.log(this.itemList[index].itemId)
-      this.axios.post('user/cart',{itemId: this.itemList[index].itemId})
+      this.axios.post('/user/cart',{itemId: this.itemList[index].itemId})
       .then(res => {
+        if(res.data.status){
+          this.$message.success('成功添加到购物车')
+        }
         window.console.log(res)
         this.$cookies.set("token", res.data.data.token, 60*60*24*7)
       })
       .catch(err => {
+        if(err.response.status==400){
+          this.$message ('请先登入')
+            //跳转到登录页
+            this.$router.push('/signin?redirect='+getRelativePathAndParams())
+        }
         window.console.error(err); 
       })
     }
@@ -101,5 +109,6 @@ export default {
 .el-table {
   width: 900px;
   margin: 0 auto;
+  min-height: 350px;
 }
 </style>
