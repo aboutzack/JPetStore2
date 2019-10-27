@@ -41,16 +41,16 @@
 
   <select id="getOrdersByUsername" parameterType="string" resultType="order">
     select
-      billaddr1 as billaddress1,
-      billaddr2 as billaddress2,
+      billaddr1 as billAddress1,
+      billaddr2 as billAddress2,
       billcity,
       billcountry,
       billstate,
       billtofirstname,
       billtolastname,
       billzip,
-      shipaddr1 as shipaddress1,
-      shipaddr2 as shipaddress2,
+      shipaddr1 as shipAddress1,
+      shipaddr2 as shipAddress2,
       shipcity,
       shipcountry,
       shipstate,
@@ -60,7 +60,7 @@
       cardtype,
       courier,
       creditcard,
-      exprdate as expirydate,
+      exprdate as expiryDate,
       locale,
       orderdate,
       orders.orderid,
@@ -78,15 +78,15 @@
       shipzip, shipcountry, billaddr1, billaddr2, billcity, billstate, billzip, billcountry,
       courier, totalprice, billtofirstname, billtolastname, shiptofirstname, shiptolastname,
       creditcard, exprdate, cardtype, locale)
-    values(#{orderid}, #{username}, #{orderdate}, #{shipaddress1}, #{shipaddress2,jdbcType=VARCHAR}, #{shipcity},
-      #{shipstate}, #{shipzip}, #{shipcountry}, #{billaddress1}, #{billaddress2,jdbcType=VARCHAR}, #{billcity},
-      #{billstate}, #{billzip}, #{billcountry}, #{courier}, #{totalprice}, #{billtofirstname}, #{billtolastname},
-      #{shiptofirstname}, #{shiptolastname}, #{creditcard}, #{expirydate}, #{cardtype}, #{locale})
+    values(#{orderId}, #{username}, #{orderDate}, #{shipAddress1}, #{shipAddress2,jdbcType=VARCHAR}, #{shipCity},
+      #{shipState}, #{shipZip}, #{shipCountry}, #{billAddress1}, #{billAddress2,jdbcType=VARCHAR}, #{billCity},
+      #{billState}, #{billZip}, #{billCountry}, #{courier}, #{totalPrice}, #{billToFirstName}, #{billToLastName},
+      #{shipToFirstName}, #{shipToLastName}, #{creditCard}, #{expiryDate}, #{cardType}, #{locale})
   </insert>
 
   <insert id="insertOrderStatus" parameterType="order">
     insert into orderstatus (orderid, linenum, TIMESTAMP, status)
-    values (#{orderid,jdbcType=NUMERIC}, #{orderid,jdbcType=NUMERIC}, #{orderdate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+    values (#{orderId,jdbcType=NUMERIC}, #{orderId,jdbcType=NUMERIC}, #{orderDate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
   </insert>
 
 </mapper>

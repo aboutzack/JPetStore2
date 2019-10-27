@@ -48,7 +48,7 @@
                   <div class="userinfo-popout">
                     <div class="username">zack</div>
                     <div class="funclist">
-                      <div class="funcitem" @click="$router.push('detailinfo')">
+                      <div class="funcitem" @click="$router.push('/user/detailinfo')">
                         <i class="el-icon-user-solid"></i> 我的主页
                       </div>
                       <div class="funcitem" @click="signout()">

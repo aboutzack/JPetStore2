@@ -1,6 +1,6 @@
 <template>
 <div>
-  <el-row gutter="15" type="flex" class="row-bg" justify="center">
+  <el-row :gutter="15" type="flex" class="row-bg" justify="center">
     <el-col :span="16"><el-autocomplete
   v-model="state"
   :fetch-suggestions="querySearchAsync"
@@ -8,7 +8,7 @@
   value-key="name"
   @keyup.enter.native="search"
 ></el-autocomplete></el-col>
-    <el-col :span="1"><el-button type="primary" @click="search">搜索</el-button></el-col>
+    <el-col :span="2"><el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button></el-col>
   </el-row>
 </div>
 

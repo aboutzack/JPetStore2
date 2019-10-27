@@ -85,6 +85,15 @@ export default new Router({
                 title: 'JPetStore - NewOrder',
             },
             component: () => import('../pages/new-order.vue')
-        }
+        },
+        {
+            path: '/user/detailinfo',
+            name: '详细信息',
+            hidden: true,
+            meta: {
+                title: 'JPetStore - DetailInfo',
+            },
+            component: () => import('../pages/detailinfo.vue')
+        },
     ]
 })

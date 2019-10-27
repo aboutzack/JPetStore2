@@ -8,12 +8,12 @@
 
     <select id="getSequence" parameterType="sequence" resultType="sequence">
     SELECT name, nextid
-    FROM SEQUENCE
+    FROM sequence
     WHERE NAME = #{name}
   </select>
 
     <update id="updateSequence" parameterType="sequence">
-    UPDATE SEQUENCE
+    UPDATE sequence
     SET NEXTID = #{nextId}
     WHERE NAME = #{name}
   </update>

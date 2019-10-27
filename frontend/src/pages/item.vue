@@ -83,9 +83,12 @@ export default {
       .then(res => {
         if(res.data.status){
           this.$message.success('成功添加到购物车')
+          this.$cookies.set("token", res.data.data.token, 60*60*24*7)
+        }else{
+          this.$message ('请先登入')
+            //跳转到登录页
+            this.$router.push('/signin?redirect='+getRelativePathAndParams())
         }
-        window.console.log(res)
-        this.$cookies.set("token", res.data.data.token, 60*60*24*7)
       })
       .catch(err => {
         if(err.response.status==400){

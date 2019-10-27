@@ -67,6 +67,16 @@ public class AccoutController {
         }
     }
 
+    @GetMapping("/user")
+    public ReturnEntity getUser(@RequestParam String username) {
+        Account account = accountService.getAccount(username);
+        if (account != null) {
+            return ReturnEntity.successResult(username);
+        }else {
+            return ReturnEntity.failedResult("用户不存在");
+        }
+    }
+
     @PutMapping("/user/detailinfo")
     public ReturnEntity updateUserInfo(@RequestBody Account account, @CookieValue("token") String token) {
         if (account == null) {
