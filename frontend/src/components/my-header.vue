@@ -51,6 +51,9 @@
                       <div class="funcitem" @click="$router.push('/user/detailinfo')">
                         <i class="el-icon-user-solid"></i> 我的主页
                       </div>
+                      <div class="funcitem" @click="$router.push('/user/orderlist')">
+                        <i class="el-icon-s-order"></i> 我的订单
+                      </div>
                       <div class="funcitem" @click="signout()">
                         <i class="el-icon-moon-night"></i> 登出
                       </div>
@@ -61,7 +64,7 @@
               </div>
               <div v-else>
                 <router-link :to="'/signup?redirect='+getFullUrl()">注册</router-link> | 
-                <router-link :to="'signin?redirect='+getFullUrl()">登入</router-link>
+                <router-link :to="'/signin?redirect='+getFullUrl()">登入</router-link>
               </div>
             </div>
           </div>
@@ -94,6 +97,7 @@ export default {
       this.$cookies.remove('token')
       this.$message.success('登出成功')
       this.$store.commit('updateSigned',false)
+      this.$store.commit('updateAccount',null)
     }
   },  
 }

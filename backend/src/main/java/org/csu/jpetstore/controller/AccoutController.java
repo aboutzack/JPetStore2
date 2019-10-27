@@ -35,7 +35,7 @@ public class AccoutController {
             Account databaseAccount = accountService.getAccount(params.get("username"), params.get("password"));
             if (databaseAccount != null) {
                 String token = jwtService.generateJwtByUsername(databaseAccount.getUsername());
-                data.put("username", databaseAccount.getUsername());
+                data.put("account", databaseAccount);
                 data.put("token", token);
                 return ReturnEntity.successResult(data);
             } else {

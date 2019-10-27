@@ -3,13 +3,13 @@
   <div class="input-search">
     <input-search></input-search>
   </div>
-  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
+  <el-form :disabled="committed" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
     <el-row :gutter="40" type="flex" justify="center">
       <el-col :span="10">
         <div>
           <el-divider>Payment Details</el-divider>
           <el-form-item label="Card Type" prop="cardType">
-            <el-select :disabled="committed" v-model="ruleForm.cardType" placeholder="Pick a card type">
+            <el-select v-model="ruleForm.cardType" placeholder="Pick a card type">
               <el-option label="Visa" value="Visa"></el-option>
               <el-option label="Mastercard" value="Mastercard"></el-option>
               <el-option label="American Express" value="American Express"></el-option>
@@ -20,40 +20,40 @@
             </el-select>
           </el-form-item>
           <el-form-item label="Card Number" prop="cardNumber">
-            <el-input :disabled="committed" v-model="ruleForm.cardNumber"></el-input>
+            <el-input v-model="ruleForm.cardNumber"></el-input>
           </el-form-item>
           <el-form-item label="Expiry Date" required>
             <el-form-item prop="expiryTime">
-              <el-date-picker :disabled="committed" type="month" placeholder="Pick a month" v-model="ruleForm.expiryTime" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="month" placeholder="Pick a month" v-model="ruleForm.expiryTime" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-form-item>
           <el-divider>Billing Address</el-divider>
           <el-form-item label="First Name" prop="firstName">
-            <el-input :disabled="committed" v-model="ruleForm.firstName"></el-input>
+            <el-input v-model="ruleForm.firstName"></el-input>
           </el-form-item>
           <el-form-item label="Last Name" prop="lastName">
-            <el-input :disabled="committed" v-model="ruleForm.lastName"></el-input>
+            <el-input v-model="ruleForm.lastName"></el-input>
           </el-form-item>
           <el-form-item label="Address 1" prop="addr1">
-            <el-input :disabled="committed" v-model="ruleForm.addr1"></el-input>
+            <el-input v-model="ruleForm.addr1"></el-input>
           </el-form-item>
           <el-form-item label="Address 2">
-            <el-input :disabled="committed" v-model="ruleForm.addr2"></el-input>
+            <el-input v-model="ruleForm.addr2"></el-input>
           </el-form-item>
           <el-form-item label="City" prop="city">
-            <el-input :disabled="committed" v-model="ruleForm.city"></el-input>
+            <el-input v-model="ruleForm.city"></el-input>
           </el-form-item>
           <el-form-item label="State" prop="state">
-            <el-input :disabled="committed" v-model="ruleForm.state"></el-input>
+            <el-input v-model="ruleForm.state"></el-input>
           </el-form-item>
           <el-form-item label="Zip" prop="zip">
-            <el-input :disabled="committed" v-model="ruleForm.zip"></el-input>
+            <el-input v-model="ruleForm.zip"></el-input>
           </el-form-item>
           <el-form-item label="Country" prop="country">
-            <el-input :disabled="committed" v-model="ruleForm.country"></el-input>
+            <el-input v-model="ruleForm.country"></el-input>
           </el-form-item>
           <el-form-item label="Ship to different address">
-            <el-switch :disabled="committed" @change="changeRules()" v-model="ruleForm.shipToDifferentAddr"></el-switch>
+            <el-switch @change="changeRules()" v-model="ruleForm.shipToDifferentAddr"></el-switch>
           </el-form-item>
         </div>
       </el-col>
@@ -62,35 +62,35 @@
           <div>
             <el-divider>Shipping Address</el-divider>
             <el-form-item label="First Name" prop="shipFirstName">
-              <el-input :disabled="committed" v-model="ruleForm.shipFirstName"></el-input>
+              <el-input v-model="ruleForm.shipFirstName"></el-input>
             </el-form-item>
             <el-form-item label="Last Name" prop="shipLastName">
-              <el-input :disabled="committed" v-model="ruleForm.shipLastName"></el-input>
+              <el-input v-model="ruleForm.shipLastName"></el-input>
             </el-form-item>
             <el-form-item label="Address 1" prop="shipAddr1">
-              <el-input :disabled="committed" v-model="ruleForm.shipAddr1"></el-input>
+              <el-input v-model="ruleForm.shipAddr1"></el-input>
             </el-form-item>
             <el-form-item label="Address 2">
-              <el-input :disabled="committed" v-model="ruleForm.shipAddr2"></el-input>
+              <el-input v-model="ruleForm.shipAddr2"></el-input>
             </el-form-item>
             <el-form-item label="City" prop="shipCity">
-              <el-input :disabled="committed" v-model="ruleForm.shipCity"></el-input>
+              <el-input v-model="ruleForm.shipCity"></el-input>
             </el-form-item>
             <el-form-item label="State" prop="shipState">
-              <el-input :disabled="committed" v-model="ruleForm.shipState"></el-input>
+              <el-input v-model="ruleForm.shipState"></el-input>
             </el-form-item>
             <el-form-item label="Zip" prop="shipZip">
-              <el-input :disabled="committed" v-model="ruleForm.shipZip"></el-input>
+              <el-input v-model="ruleForm.shipZip"></el-input>
             </el-form-item>
             <el-form-item label="Country" prop="shipCountry">
-              <el-input :disabled="committed" v-model="ruleForm.shipCountry"></el-input>
+              <el-input v-model="ruleForm.shipCountry"></el-input>
             </el-form-item>
           </div>
         </el-col>
       </template>
     </el-row>
     <div class="button">
-      <el-button :disabled="committed" type="primary" @click="submitForm('ruleForm')">confirm</el-button>
+      <el-button type="primary" @click="submitForm('ruleForm')">confirm</el-button>
     </div>
 
   </el-form>
@@ -259,7 +259,7 @@ export default {
             billCountry: this.ruleForm.country,
           }
           this.committed = true
-          this.axios.post('/order', order)
+          this.axios.post('/user/order', order)
             .then(res => {
               if (res.data.status) {
                 this.$message.success('成功提交订单')

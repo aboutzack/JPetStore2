@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     cart: null,
-    signed: false,
+    account: null,
+    signed: true,
     //搜索到的所有product
     productList: null
   },
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     updateSigned:(state, status)=>{
       state.signed = status
+    },
+    updateAccount: (state, account)=>{
+      state.account = account
     }
   }
 })

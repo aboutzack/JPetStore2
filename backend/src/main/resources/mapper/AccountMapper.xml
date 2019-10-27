@@ -80,36 +80,18 @@
       (#{email}, #{firstName}, #{lastName}, #{status}, #{addr1},  #{addr2,jdbcType=VARCHAR}, #{city}, #{state}, #{zip}, #{country}, #{phone}, #{username})
   </insert>
 
-  <!--
-  TODO MyBatis 3 does not map booleans to integers
   <update id="updateProfile" parameterType="account">
-    UPDATE PROFILE SET
-      LANGPREF = #{languagePreference},
-      FAVCATEGORY = #{favouriteCategoryId},
-      MYLISTOPT = #{listOption},
-      BANNEROPT = #{bannerOption}
-    WHERE USERID = #{username}
-  </update>
-  -->
-
-  <update id="updateProfile" parameterType="account">
-    update profile set
+    UPDATE profile SET
       langpref = #{languagePreference},
-      favcategory = #{favouriteCategoryId}
-    where userid = #{username}
+      favcategory = #{favouriteCategoryId},
+      mylistopt = #{listOption},
+      BANNEROPT = #{bannerOption}
+    WHERE userid = #{username}
   </update>
 
-  <!--
-  TODO MyBatis 3 does not map booleans to integers
   <insert id="insertProfile" parameterType="account">
-    INSERT INTO PROFILE (LANGPREF, FAVCATEGORY, MYLISTOPT, BANNEROPT, USERID)
+    INSERT INTO profile (langpref, favcategory, mylistopt, banneropt, userid)
     VALUES (#{languagePreference}, #{favouriteCategoryId}, #{listOption}, #{bannerOption}, #{username})
-  </insert>
-  -->
-
-  <insert id="insertProfile" parameterType="account">
-    insert into profile (LANGPREF, FAVCATEGORY, USERID)
-    values (#{languagePreference}, #{favouriteCategoryId}, #{username})
   </insert>
 
   <update id="updateSignon" parameterType="account">

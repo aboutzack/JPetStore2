@@ -18,6 +18,7 @@
           </div>
         </template>
         <template v-if="isIdAndPassValid">
+          <el-divider>User Information</el-divider>
           <el-form-item style="margin-top:50px" label="First name" prop="firstName">
             <el-input type="text" v-model="ruleForm.firstName" autocomplete="off"></el-input>
           </el-form-item>
@@ -48,6 +49,7 @@
           <el-form-item label="Zip" prop="zip">
             <el-input type="text" v-model="ruleForm.zip" autocomplete="off"></el-input>
           </el-form-item>
+          <el-divider>Profile Information</el-divider>
           <el-form-item label="Language Preference" prop="languagePreference">
             <el-select v-model="ruleForm.languagePreference">
               <el-option label="中文" value="chinese"></el-option>

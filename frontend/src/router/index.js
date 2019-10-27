@@ -95,5 +95,23 @@ export default new Router({
             },
             component: () => import('../pages/detailinfo.vue')
         },
+        {
+            path: '/user/orderlist',
+            name: '所有账单',
+            hidden: true,
+            meta: {
+                title: 'JPetStore - OrderList',
+            },
+            component: () => import('../pages/order-list.vue')
+        },
+        {
+            path: '/user/order',
+            name: '账单详情',
+            hidden: true,
+            meta: {
+                title: 'JPetStore - Order',
+            },
+            component: () => import('../pages/order.vue')
+        },
     ]
 })

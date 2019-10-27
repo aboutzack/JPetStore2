@@ -9,17 +9,17 @@
   <select id="getLineItemsByOrderId" parameterType="int" resultType="lineItem">
     select
       orderid,
-      linenum as linenumber,
+      linenum as lineNumber,
       itemid,
       quantity,
       unitprice
     from lineitem
-    where orderid = #{orderid}
+    where orderid = #{orderId}
   </select>
 
   <insert id="insertLineItem" parameterType="lineItem">
     insert into lineitem (orderid, linenum, itemid, quantity, unitprice)
-    values (#{orderid}, #{linenumber}, #{itemid}, #{quantity}, #{unitprice})
+    values (#{orderId}, #{lineNumber}, #{itemId}, #{quantity}, #{unitPrice})
   </insert>
 
 </mapper>
