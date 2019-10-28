@@ -2,15 +2,14 @@ package org.csu.jpetstore.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import org.csu.jpetstore.domain.Order;
-import org.csu.jpetstore.service.AccountService;
-import org.csu.jpetstore.service.CartService;
-import org.csu.jpetstore.service.JwtService;
-import org.csu.jpetstore.service.OrderService;
+import org.csu.jpetstore.domain.UserLog;
+import org.csu.jpetstore.service.*;
 import org.csu.jpetstore.utils.JwtUtil;
 import org.csu.jpetstore.utils.ReturnEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -23,6 +22,8 @@ public class OrderController {
     CartService cartService;
     @Autowired
     AccountService accountService;
+    @Autowired
+    LogService logService;
 
     @PostMapping("/user/order")
     public ReturnEntity postOrder(@CookieValue("token") String token, @RequestBody Order order) {
@@ -32,8 +33,6 @@ public class OrderController {
             return ReturnEntity.failedResult("token无效");
         } else {
             String username = JwtUtil.decode(token, JwtUtil.SECRET).get("name").asString();
-//            Cart cart = cartService.getCartByUsername(username);
-//            order.setTotalPrice(cart.getSubTotal());
             order.initOrder(accountService.getAccount(username),cartService.getCartByUsername(username));
             order.setExpiryDate(order.getExpiryDate().substring(0, 7));
             if (order.getShipToFirstName() == null) {
@@ -49,6 +48,8 @@ public class OrderController {
             orderService.insertOrder(order);
             cartService.deleteByUsername(username);
             data.put("order", order);
+            UserLog log = new UserLog(new Date(), "用户:" + username + "提交订单,总价值:" + order.getTotalPrice());
+            logService.insertUserLog(log);
             return ReturnEntity.successResult(data);
         }
     }

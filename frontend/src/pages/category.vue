@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     getData() {
-      this.axios.get('category', {
+      this.axios.get('/category', {
           params: {
             id: this.$route.query.id
           }

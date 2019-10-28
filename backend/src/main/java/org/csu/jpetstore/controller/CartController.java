@@ -3,15 +3,18 @@ package org.csu.jpetstore.controller;
 import com.alibaba.fastjson.JSONObject;
 import org.csu.jpetstore.domain.Cart;
 import org.csu.jpetstore.domain.Item;
+import org.csu.jpetstore.domain.UserLog;
 import org.csu.jpetstore.service.CartService;
 import org.csu.jpetstore.service.CatalogService;
 import org.csu.jpetstore.service.JwtService;
+import org.csu.jpetstore.service.LogService;
 import org.csu.jpetstore.utils.JwtUtil;
 import org.csu.jpetstore.utils.ReturnEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Map;
 
 @RestController
@@ -22,6 +25,8 @@ public class CartController {
     CatalogService catalogService;
     @Autowired
     JwtService jwtService;
+    @Autowired
+    LogService logService;
 
     @GetMapping("/user/cart")
     /**
@@ -64,6 +69,8 @@ public class CartController {
             Item item = catalogService.getItem(itemId);
             cartService.insertOrUpdateCartItem(username, itemId, quantity,new BigDecimal(quantity).multiply(item.getListPrice()));
             data.put("cart", cart);
+            UserLog log = new UserLog(new Date(), "用户:" + username + "添加item:" + itemId + "到购物车");
+            logService.insertUserLog(log);
             return ReturnEntity.successResult(data);
         }
     }
@@ -91,6 +98,8 @@ public class CartController {
                 cartService.insertOrUpdateCartItem(username, itemId, quantity, new BigDecimal(quantity).multiply(item.getListPrice()));
             }
             data.put("cart", cart);
+            UserLog log = new UserLog(new Date(), "用户:" + username + "更新item:" + itemId + "目前数量为"+quantity);
+            logService.insertUserLog(log);
             return ReturnEntity.successResult(data);
         }
     }

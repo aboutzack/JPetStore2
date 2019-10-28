@@ -1,13 +1,18 @@
 <template>
 <div class="container">
-  <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="142px" class="demo-ruleForm">
+  <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="142px"  class="demo-ruleForm">
     <el-row :gutter="40" type="flex" justify="center">
       <el-col :span="10">
         <el-form-item style="margin-top:50px" label="账号" prop="id">
           <el-input type="text" v-model="ruleForm.id" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="pass">
-          <el-input @keyup.enter.native="submitForm('ruleForm')" type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+          <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item  label="验证码" prop="captcha">
+          <div class="input-captcha">
+            <el-input @keyup.enter.native="submitForm('ruleForm')" type="text" v-model="ruleForm.captcha" autocomplete="off"></el-input>
+            <img :src="img"  @click="getCaptcha"></div>
         </el-form-item>
         <div class="button">
           <el-button type="primary" @click="submitForm('ruleForm')">登入</el-button>
@@ -42,9 +47,12 @@ export default {
       }
     };
     return {
+      cToken: '',
+      img: '',
       ruleForm: {
         id: '',
         pass: '',
+        captcha: ''
       },
       rules: {
         id: [{
@@ -53,6 +61,11 @@ export default {
         }],
         pass: [{
           validator: validatePass,
+          trigger: 'blur'
+        }],
+        captcha: [{
+          required: true,
+          message: '请输入验证码',
           trigger: 'blur'
         }]
       }
@@ -64,7 +77,9 @@ export default {
         if (valid) {
           this.axios.post('session', {
               username: this.ruleForm.id,
-              password: this.ruleForm.pass
+              password: this.ruleForm.pass,
+              cToken: this.cToken,
+              captcha: this.ruleForm.captcha
             })
             .then(res => {
               if (res.data.status) {
@@ -75,7 +90,8 @@ export default {
                 let redirect =  this.$route.query.redirect.substr(0,7)=='/signup'?'/':this.$route.query.redirect
                 this.$router.push(redirect)
               } else {
-                this.$message.error('用户名或密码错误')
+                this.$message.error(res.data.msg)
+                this.getCaptcha()
               }
             })
             .catch(err => {
@@ -84,6 +100,19 @@ export default {
         }
       });
     },
+    getCaptcha(){
+        this.axios.get('/captcha')
+        .then(res => {
+          this.cToken=res.data.token
+          this.img='data:image/jpeg;base64,'+res.data.img
+        })
+        .catch(err => {
+          window.console.error(err)
+        })
+      },
+  },
+  created(){
+    this.getCaptcha()
   }
 }
 </script>
@@ -101,5 +130,13 @@ export default {
 
 .button {
   text-align: center;
+}
+img{
+  width: 100px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+.input-captcha{
+  display: flex;
 }
 </style>

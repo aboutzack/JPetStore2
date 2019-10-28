@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     getData() {
-      this.axios.get('product', {
+      this.axios.get('/product', {
           params: {
             id: this.$route.query.id
           }

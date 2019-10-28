@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.csu.jpetstore.persistence.CaptchaMapper">
+
+<!--    <select id="queryByUserId" resultType="token">-->
+<!--        select * from token where username = #{value}-->
+<!--    </select>-->
+
+    <select id="queryByCaptcha" resultType="captcha">
+        select * from captcha where captcha = #{value}
+    </select>
+
+    <select id="queryByToken" resultType="captcha">
+        select * from captcha where token = #{value}
+    </select>
+
+    <insert id="save" parameterType="captcha">
+        insert into captcha
+        (
+        `captcha`,
+        `token`,
+        `expiretime`,
+        `updatetime`
+        )
+        values
+        (
+        #{captcha},
+        #{token},
+        #{expireTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <update id="update" parameterType="captcha">
+        update captcha
+        <set>
+            <if test="captcha != null">`captcha` = #{captcha}</if>
+            <if test="token != null">`token` = #{token}, </if>
+            <if test="expireTime != null">`expiretime` = #{expireTime}, </if>
+            <if test="updateTime != null">`updatetime` = #{updateTime}</if>
+        </set>
+        where token = #{token}
+    </update>
+
+    <delete id="deleteByToken">
+        delete from captcha where captcha = #{value}
+    </delete>
+
+</mapper>

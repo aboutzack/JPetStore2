@@ -13,6 +13,11 @@
           <el-form-item label="确认密码" prop="checkPass">
             <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" show-password></el-input>
           </el-form-item>
+          <el-form-item  label="验证码" prop="captcha">
+          <div class="input-captcha">
+            <el-input @keyup.enter.native="submitForm('ruleForm')" type="text" v-model="ruleForm.captcha" autocomplete="off"></el-input>
+            <img :src="img"  @click="getCaptcha"></div>
+        </el-form-item>
           <div class="button">
             <el-button type="primary" @click="submitForm('ruleForm')">注册</el-button>
           </div>
@@ -115,10 +120,13 @@ export default {
       }
     };
     return {
+      cToken: '',
+      img: '',
       ruleForm: {
         id: '',
         pass: '',
         checkPass: '',
+        captcha: '',
         firstName: '',
         lastName: '',
         email: '',
@@ -145,6 +153,11 @@ export default {
         }],
         checkPass: [{
           validator: validatePass2,
+          trigger: 'blur'
+        }],
+        captcha: [{
+          required: true,
+          message: '请输入验证码',
           trigger: 'blur'
         }],
         firstName: [{
@@ -205,14 +218,20 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.axios.get('/user?username=' + this.ruleForm.id)
+          this.axios.get('/user',{
+            params:{
+              username: this.ruleForm.id,
+              cToken: this.cToken,
+              captcha: this.ruleForm.captcha
+            }
+          })
             .then(res => {
               if (res.data.status) {
-                //存在此用户
-                this.$message.error('账号重复')
-              } else {
                 //不存在此用户
                 this.isIdAndPassValid = true
+              } else {
+                this.$message.error(res.data.msg)
+                this.getCaptcha()
               }
             })
             .catch(err => {
@@ -257,7 +276,20 @@ export default {
             })
         }
       });
-    }
+    },
+    getCaptcha(){
+        this.axios.get('/captcha')
+        .then(res => {
+          this.cToken=res.data.token
+          this.img='data:image/jpeg;base64,'+res.data.img
+        })
+        .catch(err => {
+          window.console.error(err)
+        })
+      }
+  },
+  created(){
+    this.getCaptcha()
   }
 }
 </script>
@@ -275,5 +307,13 @@ export default {
 
 .button {
   text-align: center;
+}
+img{
+  width: 100px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+.input-captcha{
+  display: flex;
 }
 </style>
