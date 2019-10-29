@@ -13,30 +13,6 @@
             <router-link to="/category?id=FISH" class="navbar-link" exact>Fish</router-link>
             <router-link to="/category?id=REPTILES" class="navbar-link" exact>Reptiles</router-link>
           </div>
-          <div class="navbar-right-open">
-            <el-button type="text" @click="showuserinfo=true">
-              <i class="el-icon-more"></i>
-            </el-button>
-            <el-drawer title="OIKii" :visible.sync="showuserinfo" direction="rtl" size="50%">
-              <div class="drawerList">
-                <div class="drawerListItem">
-                  <el-button type="primary" icon="el-icon-edit" size="small" style="width:100%;text-align:center;" round
-                    @click="$router.push('/creator/new/article') ;showuserinfo=false">写文章
-                  </el-button>
-                </div>
-                <div class="drawerListItem"
-                  @click="$router.push('/people/123456789012345678901234');showuserinfo=false">
-                  <i class="el-icon-user-solid"></i> 个人中心
-                </div>
-                <div class="drawerListItem" @click="$router.push('/setting');showuserinfo=false">
-                  <i class="el-icon-s-tools"></i> 设置
-                </div>
-                <div class="drawerListItem">
-                  <i class="el-icon-moon-night"></i> 登出
-                </div>
-              </div>
-            </el-drawer>
-          </div>
           <div class="navbar navbar-right">
             <div class="navbar-link userinfo">
               <div v-if="$store.state.signed">
@@ -78,8 +54,8 @@ import {getRelativePathAndParams} from '../utils/utils.js'
 export default {
   data(){
     return {
+      signed: false,
       headerFixable: false,
-      token: "",
       showuserinfo: false,
       loadingMessage: true,
       userinfo: {
@@ -99,13 +75,12 @@ export default {
       this.$store.commit('updateSigned',false)
       this.$store.commit('updateAccount',null)
     }
-  },  
+  },
 }
 </script>
 
 <style lang="scss" scoped>
   $header-height: 4rem;
-// $main-color: #5e81ac;
 $main-color: rgb(226, 174, 174);
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -173,8 +148,6 @@ body {
 }
 
 .container {
-  // margin-top: $header-height;
-  // background: #35495e;
   background: #f7f8fb;
 }
 @media screen and(max-width: 600px) {
@@ -265,7 +238,6 @@ header {
           }
           .avatar {
             display: inline-block;
-            // position: fixed;
             margin-left: 1.5rem;
             margin-bottom: -10px;
             width: 2.2rem;

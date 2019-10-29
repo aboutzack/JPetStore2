@@ -62,7 +62,6 @@ export default {
       })
       .then(res => {
         this.productList = res.data.data
-        // window.console.log(this.productList)
       })
       .catch(err => {
         window.console.error(err);

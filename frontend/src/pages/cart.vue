@@ -86,7 +86,6 @@ export default {
         })
     },
     handleChange(data) {
-      // window.console.log(data)
       this.axios.put('/user/cart', {
           itemId: data.item.itemId,
           quantity: data.quantity

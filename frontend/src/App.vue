@@ -8,6 +8,9 @@
 export default {
   name: 'app',
   components: {
+  },
+  created(){
+    localStorage.getItem("signed") && this.$store.commit('updateSigned',localStorage.getItem("signed")=='true');
   }
 }
 </script>

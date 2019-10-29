@@ -5,7 +5,6 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import ElementUI from 'element-ui'
 import VueCookies from 'vue-cookies'
-// import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element-variables.scss'
 import store from './store'
 
@@ -16,6 +15,9 @@ Vue.use(VueCookies)
 
 axios.defaults.baseURL='/api/v1/'
 
+window.addEventListener('beforeunload',()=>{
+  localStorage.setItem('signed',store.state.signed)
+})
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title

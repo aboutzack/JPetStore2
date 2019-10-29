@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     cart: null,
     account: null,
-    signed: true,
+    signed: false,
     //搜索到的所有product
     productList: null
   },

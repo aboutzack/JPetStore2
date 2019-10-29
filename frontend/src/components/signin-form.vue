@@ -75,7 +75,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.axios.post('session', {
+          this.axios.post('/session', {
               username: this.ruleForm.id,
               password: this.ruleForm.pass,
               cToken: this.cToken,

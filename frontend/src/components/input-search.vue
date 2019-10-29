@@ -26,7 +26,7 @@
     },
     methods: {
       getData(){
-        this.axios.get('product/searches')
+        this.axios.get('/product/searches')
         .then(res => {
           this.productList = res.data.data
         })
