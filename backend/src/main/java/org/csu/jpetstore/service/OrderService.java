@@ -53,15 +53,16 @@ public class OrderService {
   @Transactional
   public Order getOrder(int orderId) {
     Order order = orderMapper.getOrder(orderId);
-    order.setLineItems(lineItemMapper.getLineItemsByOrderId(orderId));
+    if (order != null) {
+      order.setLineItems(lineItemMapper.getLineItemsByOrderId(orderId));
 
-    for (int i = 0; i < order.getLineItems().size(); i++) {
-      LineItem lineItem = (LineItem) order.getLineItems().get(i);
-      Item item = itemMapper.getItem(lineItem.getItemId());
-      item.setQuantity(itemMapper.getInventoryQuantity(lineItem.getItemId()));
-      lineItem.setItem(item);
+      for (int i = 0; i < order.getLineItems().size(); i++) {
+        LineItem lineItem = (LineItem) order.getLineItems().get(i);
+        Item item = itemMapper.getItem(lineItem.getItemId());
+        item.setQuantity(itemMapper.getInventoryQuantity(lineItem.getItemId()));
+        lineItem.setItem(item);
+      }
     }
-
     return order;
   }
 
