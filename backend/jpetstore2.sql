@@ -365,7 +365,7 @@ INSERT INTO `supplier` VALUES ('2', 'ABC Pets', 'AC', '700 Abalone Way', '', 'Sa
 DROP TABLE IF EXISTS `userlog`;
 CREATE TABLE `userlog`  (
   `id` int(20) NOT NULL AUTO_INCREMENT,
-  `timestamp` datetime	(0) NOT NULL,
+  `timestamp` datetime NOT NULL,
   `log` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -392,7 +392,7 @@ CREATE TABLE `captcha`  (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `captcha` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
-  `expiretime` datetime(0) NOT NULL,
-  `updatetime` datetime(0) NOT NULL,
+  `expiretime` datetime NOT NULL,
+  `updatetime` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
