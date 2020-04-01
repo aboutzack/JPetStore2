@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.csu.jpetstore.persistence.GithubMapper">
+    <insert id="insertGithub" parameterType="Github">
+    INSERT INTO github
+        (userid, github_id, github_name, avatar, email, status)
+    VALUES
+        (#{userId}, #{githubId}, #{githubName}, #{avatar}, #{email},  #{status})
+    </insert>
+
+    <update id="updateGithub" parameterType="Github">
+    update github set
+        userid = #{userId},
+        github_id = #{githubId},
+        github_name = #{githubName},
+        avatar = #{avatar},
+        email = #{email},
+        status = #{status}
+    where id = #{id}
+    </update>
+
+    <select id="getGithubByGithubId" parameterType="string" resultType="Github">
+    select
+        id, userid as userId, github_id as githubId, github_name as githubName, avatar, email, status
+    from github where github_id = #{githubId}
+    </select>
+</mapper>

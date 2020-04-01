@@ -21,6 +21,7 @@
 		<typeAlias alias="myCart" type="org.csu.jpetstore.domain.MyCart"/>
 		<typeAlias alias="userLog" type="org.csu.jpetstore.domain.UserLog"/>
 		<typeAlias alias="captcha" type="org.csu.jpetstore.domain.Captcha"/>
+		<typeAlias alias="Github" type="org.csu.jpetstore.domain.Github"/>
 	</typeAliases>
 
 </configuration>

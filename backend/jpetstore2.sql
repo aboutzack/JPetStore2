@@ -396,3 +396,20 @@ CREATE TABLE `captcha`  (
   `updatetime` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `github`
+-- ----------------------------
+DROP TABLE IF EXISTS `github`;
+CREATE TABLE `github`  (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `userid` varchar(80),
+  `github_id` varchar(80) NOT NULL,
+  `github_name` varchar(80),
+  `avatar` varchar(255),
+  `email` varchar(80),
+  `status` char(1) NOT NULL COMMENT 'w: waiting for register; f: ban; p: pass',
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_github_1` FOREIGN KEY (`userid`) REFERENCES `account` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  UNIQUE index(`github_id`)
+) ENGINE = InnoDB CHARACTER SET = utf8;
