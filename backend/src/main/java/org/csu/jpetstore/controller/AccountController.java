@@ -27,23 +27,24 @@ public class AccountController {
         JSONObject data = new JSONObject();
         String cToken = params.get("cToken");
         String captcha = params.get("captcha");
+        if (captcha == null || captcha.isEmpty())
+            return ReturnEntity.failedResult("验证码答案不能为空");
+        if (cToken == null || cToken.isEmpty())
+            return ReturnEntity.failedResult("验证码唯一标识不能为空");
         Captcha captchaEntity = captchaService.queryByToken(cToken);
-        if (captcha == null || captcha.isEmpty()) {
-            return ReturnEntity.failedResult("验证码不能为空");
-        } else if (cToken == null || cToken.isEmpty()) {
-            return ReturnEntity.failedResult("cToken不能为空");
-        } else if (!captcha.equalsIgnoreCase(captchaEntity.getCaptcha())) {
-            return ReturnEntity.failedResult("验证码不正确");
+        if (captchaEntity == null)
+            return ReturnEntity.failedResult("验证码唯一标识无效");
+        if (!captcha.equalsIgnoreCase(captchaEntity.getCaptcha()))
+            return ReturnEntity.failedResult("验证码答案不正确");
+
+        Account databaseAccount = accountService.getAccount(params.get("username"), params.get("password"));
+        if (databaseAccount != null) {
+            String token = jwtService.generateJwtByUsername(databaseAccount.getUsername());
+            data.put("account", databaseAccount);
+            data.put("token", token);
+            return ReturnEntity.successResult(data);
         } else {
-            Account databaseAccount = accountService.getAccount(params.get("username"), params.get("password"));
-            if (databaseAccount != null) {
-                String token = jwtService.generateJwtByUsername(databaseAccount.getUsername());
-                data.put("account", databaseAccount);
-                data.put("token", token);
-                return ReturnEntity.successResult(data);
-            } else {
-                return ReturnEntity.failedResult("用户名或密码错误");
-            }
+            return ReturnEntity.failedResult("用户名或密码错误");
         }
     }
 

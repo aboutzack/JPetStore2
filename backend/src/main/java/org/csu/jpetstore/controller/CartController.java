@@ -75,7 +75,11 @@ public class CartController {
         String itemId = params.get("itemId").toString();
         int quantity = (int) params.get("quantity");
         Cart cart = cartService.getCartByUsername(username);
-        cart.setQuantityByItemId(itemId, quantity);
+        try {
+            cart.setQuantityByItemId(itemId, quantity);
+        } catch (NullPointerException ex) {
+            return ReturnEntity.failedResult("item不在购物车内");
+        }
         if (quantity < 1) {
             cart.removeItemById(itemId);
             cartService.deleteByUsernameAndItemId(username, itemId);
