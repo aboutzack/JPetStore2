@@ -31,31 +31,32 @@ public class AccountController {
         String captcha = params.get("captcha");
         String password = params.get("password");
         String username = params.get("username");
+        if (captcha == null || captcha.isEmpty())
+            return ReturnEntity.failedResult("验证码答案不能为空");
+        if (cToken == null || cToken.isEmpty())
+            return ReturnEntity.failedResult("验证码唯一标识不能为空");
         Captcha captchaEntity = captchaService.queryByToken(cToken);
-        if (captcha == null || captcha.isEmpty()) {
-            return ReturnEntity.failedResult("验证码不能为空");
-        } else if (cToken == null || cToken.isEmpty()) {
-            return ReturnEntity.failedResult("cToken不能为空");
-        } else if (!captcha.equalsIgnoreCase(captchaEntity.getCaptcha())) {
-            return ReturnEntity.failedResult("验证码不正确");
-        } else {
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String encodedPassword = accountService.getPassword(username);
-            if (encodedPassword == null || encodedPassword.isEmpty()) {
-                return ReturnEntity.failedResult("用户名不存在");
-            }
-            if (!passwordEncoder.matches(password, encodedPassword)) {
-                return ReturnEntity.failedResult("密码错误");
-            }
-            Account account = accountService.getAccount(username);
-            if (account == null) {
-                return ReturnEntity.failedResult("用户名不存在");
-            }
-            String token = jwtService.generateJwtByUsername(account.getUsername());
-            data.put("account", account);
-            data.put("token", token);
-            return ReturnEntity.successResult(data);
+        if (captchaEntity == null)
+            return ReturnEntity.failedResult("验证码唯一标识无效");
+        if (!captcha.equalsIgnoreCase(captchaEntity.getCaptcha()))
+            return ReturnEntity.failedResult("验证码答案不正确");
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = accountService.getPassword(username);
+        if (encodedPassword == null || encodedPassword.isEmpty()) {
+            return ReturnEntity.failedResult("用户名不存在");
         }
+        if (!passwordEncoder.matches(password, encodedPassword)) {
+            return ReturnEntity.failedResult("用户名或密码错误");
+        }
+        Account account = accountService.getAccount(username);
+        if (account == null) {
+            return ReturnEntity.failedResult("用户名不存在");
+        }
+        String token = jwtService.generateJwtByUsername(account.getUsername());
+        data.put("account", account);
+        data.put("token", token);
+        return ReturnEntity.successResult(data);
     }
 
     @DeleteMapping("/session")
