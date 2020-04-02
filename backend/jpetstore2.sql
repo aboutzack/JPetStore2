@@ -325,7 +325,7 @@ INSERT INTO `sequence` VALUES ('ordernum', '1000');
 DROP TABLE IF EXISTS `signon`;
 CREATE TABLE `signon` (
   `username` varchar(25) NOT NULL,
-  `password` varchar(25) NOT NULL,
+  `password` varchar(255) NOT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
