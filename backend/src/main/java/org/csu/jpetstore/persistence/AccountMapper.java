@@ -22,4 +22,6 @@ public interface AccountMapper {
 
   void updateSignon(Account account);
 
+  String getPasswordByUsername(String username);
+
 }

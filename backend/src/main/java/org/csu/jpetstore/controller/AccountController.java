@@ -9,6 +9,8 @@ import org.csu.jpetstore.service.CaptchaService;
 import org.csu.jpetstore.service.JwtService;
 import org.csu.jpetstore.utils.ReturnEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -27,24 +29,32 @@ public class AccountController {
         JSONObject data = new JSONObject();
         String cToken = params.get("cToken");
         String captcha = params.get("captcha");
-        if (captcha == null || captcha.isEmpty())
-            return ReturnEntity.failedResult("验证码答案不能为空");
-        if (cToken == null || cToken.isEmpty())
-            return ReturnEntity.failedResult("验证码唯一标识不能为空");
+        String password = params.get("password");
+        String username = params.get("username");
         Captcha captchaEntity = captchaService.queryByToken(cToken);
-        if (captchaEntity == null)
-            return ReturnEntity.failedResult("验证码唯一标识无效");
-        if (!captcha.equalsIgnoreCase(captchaEntity.getCaptcha()))
-            return ReturnEntity.failedResult("验证码答案不正确");
-
-        Account databaseAccount = accountService.getAccount(params.get("username"), params.get("password"));
-        if (databaseAccount != null) {
-            String token = jwtService.generateJwtByUsername(databaseAccount.getUsername());
-            data.put("account", databaseAccount);
+        if (captcha == null || captcha.isEmpty()) {
+            return ReturnEntity.failedResult("验证码不能为空");
+        } else if (cToken == null || cToken.isEmpty()) {
+            return ReturnEntity.failedResult("cToken不能为空");
+        } else if (!captcha.equalsIgnoreCase(captchaEntity.getCaptcha())) {
+            return ReturnEntity.failedResult("验证码不正确");
+        } else {
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encodedPassword = accountService.getPassword(username);
+            if (encodedPassword == null || encodedPassword.isEmpty()) {
+                return ReturnEntity.failedResult("用户名不存在");
+            }
+            if (!passwordEncoder.matches(password, encodedPassword)) {
+                return ReturnEntity.failedResult("密码错误");
+            }
+            Account account = accountService.getAccount(username);
+            if (account == null) {
+                return ReturnEntity.failedResult("用户名不存在");
+            }
+            String token = jwtService.generateJwtByUsername(account.getUsername());
+            data.put("account", account);
             data.put("token", token);
             return ReturnEntity.successResult(data);
-        } else {
-            return ReturnEntity.failedResult("用户名或密码错误");
         }
     }
 
@@ -60,10 +70,14 @@ public class AccountController {
     public ReturnEntity signUp(@RequestBody Account account) {
         JSONObject data = new JSONObject();
         String username = account.getUsername();
+        String password = account.getPassword();
         Account databaseAccount = accountService.getAccount(username);
         if (databaseAccount != null) {
             return ReturnEntity.failedResult("用户已存在");
         } else {
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            //加密password
+            account.setPassword(passwordEncoder.encode(password));
             accountService.insertAccount(account);
             String token = jwtService.generateJwtByUsername(username);
             data.put("username", username);

@@ -40,4 +40,8 @@ public class AccountService {
     }
   }
 
+  public String getPassword(String username) {
+    return accountMapper.getPasswordByUsername(username);
+  }
+
 }

@@ -104,4 +104,9 @@
     values (#{password}, #{username})
   </insert>
 
+  <select id="getPasswordByUsername" parameterType="string" resultType="string">
+    select password from signon
+    where username = #{username}
+  </select>
+
 </mapper>

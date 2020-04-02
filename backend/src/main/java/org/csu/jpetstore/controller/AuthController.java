@@ -16,6 +16,8 @@ import org.csu.jpetstore.service.GithubService;
 import org.csu.jpetstore.service.JwtService;
 import org.csu.jpetstore.utils.ReturnEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Random;
@@ -124,6 +126,8 @@ public class AuthController {
         if(databaseAccount != null)
             return ReturnEntity.failedResult("用户id已存在");
 
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
         accountService.insertAccount(account);
         github.setStatus("p");
         github.setUserId(username);
