@@ -32,14 +32,13 @@ public class OrderService {
   public void insertOrder(Order order) {
     order.setOrderId(getNextId("ordernum"));
     for (int i = 0; i < order.getLineItems().size(); i++) {
-      LineItem lineItem =  order.getLineItems().get(i);
-//      String itemId = lineItem.getItemId();
-//      Integer increment = new Integer(lineItem.getQuantity());
-//      Map<String, Object> param = new HashMap<String, Object>(2);
-//      param.put("itemId", itemId);
-//      param.put("increment", increment);
-//      itemMapper.updateInventoryQuantity(param);
-      itemMapper.updateInventoryQuantityByLineItem(lineItem);
+      LineItem lineItem = (LineItem) order.getLineItems().get(i);
+      String itemId = lineItem.getItemId();
+      Integer increment = new Integer(lineItem.getQuantity());
+      Map<String, Object> param = new HashMap<String, Object>(2);
+      param.put("itemId", itemId);
+      param.put("increment", increment);
+      itemMapper.updateInventoryQuantity(param);
     }
 
     orderMapper.insertOrder(order);
@@ -81,20 +80,6 @@ public class OrderService {
     Sequence parameterObject = new Sequence(name, sequence.getNextId() + 1);
     sequenceMapper.updateSequence(parameterObject);
     return sequence.getNextId();
-  }
-
-  //更改order和lineItem的状态--已付款
-  //更改库存
-  @Transactional
-  public void updateOrderAndInventory(Order order){
-    if (order != null) {
-      orderMapper.updateOrderStatus(order);
-
-      for (int i = 0; i < order.getLineItems().size(); i++) {
-        LineItem lineItem = (LineItem)order.getLineItems().get(i);
-        itemMapper.updateInventoryQuantityByLineItem(lineItem);
-      }
-    }
   }
 
 }

@@ -11,4 +11,5 @@ public interface LineItemMapper {
   List<LineItem> getLineItemsByOrderId(int orderId);
 
   void insertLineItem(LineItem lineItem);
+
 }
