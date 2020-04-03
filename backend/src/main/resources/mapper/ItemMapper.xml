@@ -62,4 +62,10 @@
     where itemid = #{itemid}
   </update>
 
+  <update id="updateInventoryQuantityByLineItem" parameterType="org.csu.jpetstore.domain.LineItem">
+    update inventory set
+     qty = qty - #{quantity}
+    where itemid = #{itemId}
+  </update>
+
 </mapper>

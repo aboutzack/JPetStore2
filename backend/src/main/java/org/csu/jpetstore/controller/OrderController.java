@@ -73,4 +73,19 @@ public class OrderController {
         data.put("order", order);
         return ReturnEntity.successResult(data);
     }
+
+
+    @PutMapping("/user/order")
+    @Authorization
+    public ReturnEntity updateOrder(@RequestParam int orderId){
+        JSONObject data = new JSONObject();
+        Order order = orderService.getOrder(orderId);
+        orderService.updateOrderAndInventory(order);
+
+        data.put("orderStatus",order.getStatus());
+        UserLog log = new UserLog(new Date(), "用户:" + order.getUsername() + "已付款,修改订单状态为已付款");
+        logService.insertUserLog(log);
+
+        return ReturnEntity.successResult(data);
+    }
 }

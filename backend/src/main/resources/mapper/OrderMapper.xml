@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.csu.jpetstore.persistence.OrderMapper">
 
-  <cache />
+    <cache/>
 
-  <select id="getOrder" resultType="order" parameterType="int">
+    <select id="getOrder" resultType="order" parameterType="int">
     select
       billaddr1 as billaddress1,
       billaddr2 as billaddress2,
@@ -39,7 +39,7 @@
       and orders.orderid = orderstatus.orderid
   </select>
 
-  <select id="getOrdersByUsername" parameterType="string" resultType="order">
+    <select id="getOrdersByUsername" parameterType="string" resultType="order">
     select
       billaddr1 as billAddress1,
       billaddr2 as billAddress2,
@@ -73,7 +73,7 @@
     order by orderdate
   </select>
 
-  <insert id="insertOrder" parameterType="order">
+    <insert id="insertOrder" parameterType="order">
     insert into orders (orderid, userid, orderdate, shipaddr1, shipaddr2, shipcity, shipstate,
       shipzip, shipcountry, billaddr1, billaddr2, billcity, billstate, billzip, billcountry,
       courier, totalprice, billtofirstname, billtolastname, shiptofirstname, shiptolastname,
@@ -84,9 +84,17 @@
       #{shipToFirstName}, #{shipToLastName}, #{creditCard}, #{expiryDate}, #{cardType}, #{locale})
   </insert>
 
-  <insert id="insertOrderStatus" parameterType="order">
+    <insert id="insertOrderStatus" parameterType="order">
     insert into orderstatus (orderid, linenum, TIMESTAMP, status)
-    values (#{orderId,jdbcType=NUMERIC}, #{orderId,jdbcType=NUMERIC}, #{orderDate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+    values (#{orderId,jdbcType=NUMERIC}, #{linenum,jdbcType=NUMERIC}, #{orderDate,jdbcType=TIMESTAMP}, "1")
   </insert>
+
+
+    <!--  1-未付款，2-已付款，3-运输中，4-已签收-->
+    <update id="updateOrderStatus" parameterType="order">
+    update orderstatus set
+     status = "2" 
+    where orderid = #{orderId}
+  </update>
 
 </mapper>

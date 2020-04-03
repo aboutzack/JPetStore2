@@ -16,4 +16,6 @@ public interface OrderMapper {
   
   void insertOrderStatus(Order order);
 
+  void updateOrderStatus(Order order);
+
 }
