@@ -27,22 +27,11 @@ public class AccountController {
     @PostMapping("/session")
     public ReturnEntity signIn(@RequestBody Map<String, String> params) {
         JSONObject data = new JSONObject();
-        String cToken = params.get("cToken");
-        String captcha = params.get("captcha");
         String password = params.get("password");
         String username = params.get("username");
-        if (captcha == null || captcha.isEmpty())
-            return ReturnEntity.failedResult("验证码答案不能为空");
-        if (cToken == null || cToken.isEmpty())
-            return ReturnEntity.failedResult("验证码唯一标识不能为空");
-        Captcha captchaEntity = captchaService.queryByToken(cToken);
-        if (captchaEntity == null)
-            return ReturnEntity.failedResult("验证码唯一标识无效");
-        if (!captcha.equalsIgnoreCase(captchaEntity.getCaptcha()))
-            return ReturnEntity.failedResult("验证码答案不正确");
-
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = accountService.getPassword(username);
+        System.out.println(encodedPassword);
         if (encodedPassword == null || encodedPassword.isEmpty()) {
             return ReturnEntity.failedResult("用户名不存在");
         }
@@ -50,6 +39,7 @@ public class AccountController {
             return ReturnEntity.failedResult("用户名或密码错误");
         }
         Account account = accountService.getAccount(username);
+        System.out.println(account);
         if (account == null) {
             return ReturnEntity.failedResult("用户名不存在");
         }
@@ -96,18 +86,10 @@ public class AccountController {
     @GetMapping("/user")
     public ReturnEntity getUser(@RequestParam Map<String, String> params) {
         String username = params.get("username");
-        String cToken = params.get("cToken");
         String captcha = params.get("captcha");
         Account account = accountService.getAccount(username);
-        Captcha captchaEntity = captchaService.queryByToken(cToken);
 
-        if (captcha == null || captcha.isEmpty()) {
-            return ReturnEntity.failedResult("验证码不能为空");
-        } else if (cToken == null || cToken.isEmpty()) {
-            return ReturnEntity.failedResult("cToken不能为空");
-        } else if (!captcha.equalsIgnoreCase(captchaEntity.getCaptcha())) {
-            return ReturnEntity.failedResult("验证码不正确");
-        } else if (account != null) {
+        if (account != null) {
             return ReturnEntity.failedResult("用户已存在");
         } else {
             return ReturnEntity.successResult(username);

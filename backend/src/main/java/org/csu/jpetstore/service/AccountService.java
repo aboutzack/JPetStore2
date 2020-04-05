@@ -13,6 +13,7 @@ public class AccountService {
   private AccountMapper accountMapper;
 
   public Account getAccount(String username) {
+
     return accountMapper.getAccountByUsername(username);
   }
 

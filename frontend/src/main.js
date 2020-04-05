@@ -14,7 +14,12 @@ Vue.use(VueAxios, axios)
 Vue.use(VueCookies)
 
 axios.defaults.baseURL='/api/v1/'
-
+if (localStorage.getItem('token')){
+  axios.interceptors.request.use((config) => {
+    config.headers.authorization = localStorage.getItem('token');
+    return config;
+  });
+}
 window.addEventListener('beforeunload',()=>{
   localStorage.setItem('signed',store.state.signed)
 })

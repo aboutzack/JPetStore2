@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     cart: null,
     account: null,
+    token: null,
     signed: false,
     //搜索到的所有product
     productList: null
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     },
     updateAccount: (state, account)=>{
       state.account = account
+    },
+    setToken: (state, token)=>{
+      state.token = token
     }
   }
 })
